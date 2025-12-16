@@ -2,6 +2,15 @@ let humanScore = 0;
 let computerScore = 0;
 let numRounds = 5;
 
+const rockButton = document.querySelector("#rock");
+const paperButton = document.querySelector("#paper");
+const scissorsButton = document.querySelector("#scissors");
+const resultText = document.querySelector(".results");
+
+rockButton.addEventListener("click", () => getHumanChoice("rock"));
+paperButton.addEventListener("click",() => getHumanChoice("paper"));
+scissorsButton.addEventListener("click", () => getHumanChoice("scissors"));
+
 function getComputerChoice() {
     let randomNum = Math.random() * 100;
     if (randomNum >= 0 && randomNum < 34) {
@@ -13,13 +22,9 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice(){
-    let userInput = prompt("Choose 'Rock', 'Paper', or 'Scissors'")
-    return userInput
+function getHumanChoice(userInput){
+    return userInput;
 }
-
-
-
 
 function playGame(){
     function playRound(humanChoice, computerChoice){
@@ -45,12 +50,7 @@ function playGame(){
             computerScore++;
         }
 
-        console.log(message);
-        alert(message);
-    }
-
-    for(let i = 0; i < numRounds; i++){
-        playRound(getHumanChoice(), getComputerChoice());
+        results.textContent = message;
     }
 
     declareWinner()
@@ -68,7 +68,6 @@ function declareWinner(){
     message = message + "\nOut of five rounds " + (5 - (humanScore + computerScore)) + " were tied."; 
 
     console.log(message);
-    alert(message);
 }
 
 playGame();
