@@ -43,13 +43,16 @@ function playRound(humanChoice, computerChoice){
     if (tie){
         message = "Tied round. You both chose " + humanChoice + ".";
         tiedRounds++;
+        document.body.style.backgroundColor = "#ffffff";
     }else if (playerWin){
         message = "You win! Your " + humanChoice + " beats the computer's " + computerChoice + ".";
         humanScore++;
+        document.body.style.backgroundColor = "#b8ffc0";
         humanScoreText.textContent = "Human Score: " + humanScore;
     } else {
         message = "You lose. Your " + humanChoice + " loses to the computer's " + computerChoice + ".";
         computerScore++;
+        document.body.style.backgroundColor = "#ffb8b8";
         computerScoreText.textContent = "Computer Score: " + computerScore;
     }
 
@@ -70,13 +73,16 @@ function playRound(humanChoice, computerChoice){
 function declareWinner(){
     let message = ""
     if(humanScore > computerScore){
-        message = "You won! "
+        message = "You won! ";
+        document.body.style.backgroundColor = "#24ff4c";
     }else{
         message = "You lost. ";
+        document.body.style.backgroundColor = "#ff2424";
     }
 
     message = message + "You had " + humanScore + " points and the computer had " + computerScore + " points.";
-    message = message + "\nThere were " + tiedRounds + " tied rounds."
+    message = message + "\nThere were " + tiedRounds + " tied rounds.";
+    message = message + " Refresh the page to play again.";
 
     resultText.textContent = message;
 }
