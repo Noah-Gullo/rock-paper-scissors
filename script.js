@@ -1,15 +1,19 @@
 let humanScore = 0;
 let computerScore = 0;
-let numRounds = 5;
+let tiedRounds = 0;
 
-const rockButton = document.querySelector("#rock");
-const paperButton = document.querySelector("#paper");
-const scissorsButton = document.querySelector("#scissors");
+const rockButton = document.querySelector(".buttons #rock");
+const paperButton = document.querySelector(".buttons #paper");
+const scissorsButton = document.querySelector(".buttons #scissors");
+const humanScoreText = document.querySelector(".humanScoreDisplay");
+const computerScoreText = document.querySelector(".computerScoreDisplay");
 const resultText = document.querySelector(".results");
 
-rockButton.addEventListener("click", () => getHumanChoice("rock"));
-paperButton.addEventListener("click",() => getHumanChoice("paper"));
-scissorsButton.addEventListener("click", () => getHumanChoice("scissors"));
+resultText.textContent = "Welcome to Rock, Paper, Scissors! Press a button to get started."
+
+rockButton.addEventListener("click", () => playRound("rock", getComputerChoice()));
+paperButton.addEventListener("click", () => playRound("paper", getComputerChoice()));
+scissorsButton.addEventListener("click", () => playRound("scissors", getComputerChoice()));
 
 function getComputerChoice() {
     let randomNum = Math.random() * 100;
@@ -22,38 +26,45 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice(userInput){
-    return userInput;
-}
+function playRound(humanChoice, computerChoice){
+    humanChoice = humanChoice.toLowerCase();
+    computerChoice = computerChoice.toLowerCase();
+    let message = "";
+    let tie = false;
+    let playerWin = false;
 
-function playGame(){
-    function playRound(humanChoice, computerChoice){
-        humanChoice = humanChoice.toLowerCase();
-        computerChoice = computerChoice.toLowerCase();
-        let message = "";
-        let tie = false;
-        let playerWin = false;
 
-        if (humanChoice == computerChoice){
-            tie = true
-        } else if ((humanChoice === "rock" && computerChoice === "scissors") || (humanChoice === "paper" && computerChoice === "rock") || (humanChoice === "scissors" && computerChoice === "paper")){
-            playerWin = true;
-        } 
+    if (humanChoice == computerChoice){
+        tie = true
+    } else if ((humanChoice === "rock" && computerChoice === "scissors") || (humanChoice === "paper" && computerChoice === "rock") || (humanChoice === "scissors" && computerChoice === "paper")){
+        playerWin = true;
+    } 
 
-        if (tie){
-            message = "Tied round. You both chose " + humanChoice + ".";
-        }else if (playerWin){
-            message = "You win! Your " + humanChoice + " beats the computer's " + computerChoice + ".";
-            humanScore++;
-        } else {
-            message = "You lose. Your " + humanChoice + " loses to the computer's " + computerChoice + ".";
-            computerScore++;
-        }
-
-        results.textContent = message;
+    if (tie){
+        message = "Tied round. You both chose " + humanChoice + ".";
+        tiedRounds++;
+    }else if (playerWin){
+        message = "You win! Your " + humanChoice + " beats the computer's " + computerChoice + ".";
+        humanScore++;
+        humanScoreText.textContent = "Human Score: " + humanScore;
+    } else {
+        message = "You lose. Your " + humanChoice + " loses to the computer's " + computerChoice + ".";
+        computerScore++;
+        computerScoreText.textContent = "Computer Score: " + computerScore;
     }
 
-    declareWinner()
+    resultText.textContent = message;
+
+    if(humanScore >= 5 || computerScore >= 5){
+        rockButton.remove();
+        paperButton.remove();
+        scissorsButton.remove();
+        
+        humanScoreText.remove();
+        computerScoreText.remove();
+
+        declareWinner();
+    }
 }
 
 function declareWinner(){
@@ -65,9 +76,7 @@ function declareWinner(){
     }
 
     message = message + "You had " + humanScore + " points and the computer had " + computerScore + " points.";
-    message = message + "\nOut of five rounds " + (5 - (humanScore + computerScore)) + " were tied."; 
+    message = message + "\nThere were " + tiedRounds + " tied rounds."
 
-    console.log(message);
+    resultText.textContent = message;
 }
-
-playGame();
